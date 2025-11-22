@@ -24,8 +24,8 @@ For CSV files, commas are inserted automatically between columns, so only the va
 A set of PDDL domain and problem files modelling an **ESA-style lunar rover mission**.
 It includes:
 
-* `domain.pddl` — base rover mission domain for mission1/2
-* `domain-ext.pddl` — extended domain with astronauts for mission3
+* `domain.pddl` — base lunar rover domain used for Mission 1 and 2
+* `domain-ext.pddl` — extended domain with astronauts operations used for Mission 3
 * `mission1/2/3.pddl` — three mission problem files
 
 The domains and problems can be executed using planners **LAMA-first**.
