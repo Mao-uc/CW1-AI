@@ -3,10 +3,10 @@
     
     ;; MISSION ENTITY DECLARATIONS
     (:objects
-        ;; Lunar surface navigation waypoints (6 locations)
+        ;; Lunar surface navigation waypoints 
         wp1 wp2 wp3 wp4 wp5 wp6 - location
         
-        ;; Mission hardware assets (2 rovers and 2 landers)
+        ;; Mission hardware 
         rover1 rover2 - rover
         lander1 lander2 - lander
         
@@ -18,7 +18,7 @@
         ;; Astronaut personnel
         alice bob - astronaut
         
-        ;; Lander internal areas (for type completeness)
+        ;; Lander internal areas 
         control_room1 docking_bay1 - area  ; Lander1 internal compartments
         control_room2 docking_bay2 - area  ; Lander2 internal compartments
     )
