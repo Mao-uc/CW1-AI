@@ -1,12 +1,11 @@
 (define (problem lunar-mission-1)
     (:domain lunar)
     
-    ;; MISSION ENTITY DECLARATIONS
     (:objects
         ;; Lunar surface navigation waypoints
         wp1 wp2 wp3 wp4 wp5 - location
         
-        ;; Mission hardware assets
+        ;; Mission hardware 
         rover1 - rover
         lander1 - lander
         
