@@ -2,7 +2,7 @@
 
 ;;; DOMAIN DEFINITION FOR LUNAR EXPLORATION MISSION
 ;;; This domain models the autonomous operations of a rover on the lunar surface
-;;; including navigation, data collection, and sample return.
+
 
 (:requirements :strips :typing :negative-preconditions :universal-preconditions)
 
@@ -23,10 +23,10 @@
 )
 
 ;;; PREDICATES
-;;; State descriptors for the lunar mission domain
+;;; State for the lunar mission domain
 (:predicates
     ;; Location and connectivity
-    (at ?r - rover ?l - location)                ; Rover is at specific location
+    (at ?r - rover ?l - location)                   ; Rover is at specific location
     (lander_at ?l - lander ?loc - location)      ; Lander is positioned at location
     (connected ?from ?to - location)             ; Path exists between two locations
     
@@ -40,18 +40,18 @@
     
     ;; Mission task assignments
     (image_required_at ?img - image_data ?loc - location)    ; Position of image collection task 
-    (scan_required_at ?scan - scan_data ?loc - location)     ; Position of scan collection task assignment  
-    (sample_required_at ?s - sample ?loc - location)         ; Position of sample collection task assignment
+    (scan_required_at ?scan - scan_data ?loc - location)     ; Position of scan collection task 
+    (sample_required_at ?s - sample ?loc - location)         ; Position of sample collection task 
     
     ;; Task completion tracking
     (image_task_completed ?img - image_data)                 ; Image task completion status
     (scan_task_completed ?scan - scan_data)                  ; Scan task completion status
-    (sample_task_completed ?s - sample)                      ; Sample task completion status
+    (sample_task_completed ?s - sample)                      ; Sample task completion status(sample has been collected by rover)
     
     ;; Sample management
-    (has_sample ?r - rover ?s - sample)          ; Rover is carrying a sample
-    (sample_collected ?s - sample)               ; Sample has been picked up
-    (sample_stored ?s - sample ?l - lander)      ; Sample is stored in lander
+    (has_sample ?r - rover ?s - sample)                     ; Rover is carrying a sample
+    (sample_collected ?s - sample)                          ; Sample has been picked up
+    (sample_stored ?s - sample ?l - lander)                 ; Sample is stored in lander
     
     ;; Resource availability flags
     (rover_data_available ?r - rover)            ; Rover can perform new data collection
@@ -59,7 +59,7 @@
     (lander_storage_free ?l - lander)            ; Lander has not stored the sample
     
     ;; Mission completion status
-    (all_tasks_completed)                        ; All mission tasks are finished
+    (all_tasks_completed)                        ; All tasks have been completed except for transporting the sample back to the corresponding lander
 )
 
 ;;; ACTIONS
@@ -165,18 +165,18 @@
 )
 
 (:action check_mission_completion
-    ;;; Checks if all mission tasks have been completed
+    ;;; Checks if all the data have been collected and transmitted, and all the samples have been collected by the rover
     :parameters ()
     :precondition (and
-        ;; All the images of the assigned tasks have been transmitted.
+        ;; All the images of the assigned tasks have been transmitted
         (forall (?img - image_data)
             (and (image_task_completed ?img) (data_transmitted ?img)))
         
-        ;; All the scans of the assigned tasks have been transmitted.
+        ;; All the scans of the assigned tasks have been transmitted
         (forall (?scan - scan_data)
             (and (scan_task_completed ?scan) (data_transmitted ?scan)))
         
-        ;; All the samples of the assigned tasks have been collected.
+        ;; All the samples have been collected by rover
         (forall (?s - sample)
             (sample_task_completed ?s))
         
@@ -187,7 +187,7 @@
     )
 )
 (:action store_sample
-    ;;; Stores a collected sample in the lander (subject to storage constraints)
+    ;;; Stores a collected sample to the lander 
     :parameters (?r - rover ?l - lander ?s - sample ?loc - location)
     :precondition (and
         (at ?r ?loc)                        ; Rover must be at lander location
@@ -195,7 +195,7 @@
         (lander_associated ?r ?l)           ; Rover must belong to this lander
         (has_sample ?r ?s)                  ; Rover must be carrying the sample
         (lander_storage_free ?l)            ; Lander must not already have the sample
-        (all_tasks_completed)               ; All data and sample must be collected 
+        (all_tasks_completed)               ; All the data have been collected and transmitted, and all the samples have been collected by the rover
     )
     :effect (and
         (sample_stored ?s ?l)               ; Sample is stored in lander
