@@ -84,6 +84,23 @@ public class SudokuSolver {
         return true;
     }
 
+    /** Finds the next empty cell (0). Returns null if none left. */
+    private int[] findEmptyCell(int[][] board) {
+        for (int r = 0; r < SIZE; r++) {
+            for (int c = 0; c < SIZE; c++) {
+                if (board[r][c] == 0) {
+                    return new int[]{r, c};
+                }
+            }
+        }
+        return null;
+    }
+
+    /** Converts (row, col) to a 0..8 box index. */
+    private int getBoxIndex(int r, int c) {
+        return (r / SUBGRID_SIZE) * SUBGRID_SIZE + (c / SUBGRID_SIZE);
+    }
+
     /**
      * Backtracking search using precomputed constraints and optional listener.
      */
@@ -141,22 +158,5 @@ public class SudokuSolver {
             }
         }
         return false;
-    }
-
-    /** Finds the next empty cell (0). Returns null if none left. */
-    private int[] findEmptyCell(int[][] board) {
-        for (int r = 0; r < SIZE; r++) {
-            for (int c = 0; c < SIZE; c++) {
-                if (board[r][c] == 0) {
-                    return new int[]{r, c};
-                }
-            }
-        }
-        return null;
-    }
-
-    /** Converts (row, col) to a 0..8 box index. */
-    private int getBoxIndex(int r, int c) {
-        return (r / SUBGRID_SIZE) * SUBGRID_SIZE + (c / SUBGRID_SIZE);
     }
 }
