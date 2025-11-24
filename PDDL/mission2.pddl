@@ -3,10 +3,10 @@
     
     ;; MISSION ENTITY DECLARATIONS
     (:objects
-        ;; Lunar surface navigation waypoints (6 locations)
+        ;; Lunar surface navigation waypoints 
         wp1 wp2 wp3 wp4 wp5 wp6 - location
         
-        ;; Mission hardware assets (2 rovers and 2 landers)
+        ;; Mission hardware 
         rover1 rover2 - rover
         lander1 lander2 - lander
         
@@ -50,7 +50,7 @@
         (connected wp4 wp2)
         (connected wp2 wp3)                  ; Waypoint 2 → Waypoint 3
         (connected wp3 wp5)                  ; Waypoint 3 → Waypoint 5
-        (connected wp5 wp3)                  ; Waypoint 5 ↔ Waypoint 3
+        (connected wp5 wp3)                  ; Waypoint 5 → Waypoint 3
         (connected wp5 wp6)                  ; Waypoint 5 → Waypoint 6
         (connected wp6 wp4)                  ; Waypoint 6 → Waypoint 4
         
